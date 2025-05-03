@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, SafeAreaView, TouchableOpacity, Image } from 'react-native';
 import { ChatItem } from '@/components/ChatItem';
+import { useThemeContext } from '@/context/ThemeContext';
+import { useTheme } from '@react-navigation/native';
 
 const avatars = {
   red: require('@/assets/avatars/avatar1.png'),
@@ -72,7 +74,9 @@ const initialChats = [
 
 export default function ChatScreen() {
   const [chats, setChats] = useState(initialChats);
-
+  const { theme } = useThemeContext();
+  const isDark = theme === 'dark';
+ const { colors } = useTheme();
   const loadMoreChats = () => {
     const newChats = chats.map(chat => ({
       ...chat,
@@ -82,20 +86,20 @@ export default function ChatScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={styles.header}>
-        <Text style={styles.title}>💬 Chat</Text>
+        <Text style={[styles.title, { color: colors.headerText }]}>💬 Chat</Text>
         <TouchableOpacity>
-          <Image source={require('@/assets/icons/search.png')} style={styles.searchIcon} />
+          <Image source={require('@/assets/icons/search.png')} style={[styles.searchIcon, { tintColor: colors.icon }]} />
         </TouchableOpacity>
       </View>
 
-      <View style={styles.tabs}>
-        <TouchableOpacity style={[styles.tab, styles.activeTab]}>
-          <Text style={[styles.tabText, styles.activeTabText]}>Open chats</Text>
+      <View style={[styles.tabs, { backgroundColor: colors.tabBackground }]}>
+        <TouchableOpacity style={[styles.tab, { backgroundColor: colors.activeTab }]}>
+          <Text style={[styles.tabText, { color: colors.activeTabText, fontWeight: 'bold' }]}>Open chats</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.tab}>
-          <Text style={styles.tabText}>My friends</Text>
+          <Text style={[styles.tabText, { color: colors.tabText }]}>My friends</Text>
         </TouchableOpacity>
       </View>
 
@@ -113,7 +117,6 @@ export default function ChatScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#111827',
     flex: 1,
   },
   header: {
@@ -125,20 +128,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    color: '#fff',
     fontSize: 22,
     fontWeight: 'bold',
   },
   searchIcon: {
     width: 18,
     height: 18,
-    tintColor: '#aaa',
   },
   tabs: {
     flexDirection: 'row',
     marginHorizontal: 16,
     marginBottom: 8,
-    backgroundColor: '#1f2937',
     borderRadius: 10,
     overflow: 'hidden',
   },
@@ -147,15 +147,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     alignItems: 'center',
   },
-  activeTab: {
-    backgroundColor: '#3b82f6',
-  },
   tabText: {
-    color: '#aaa',
     fontSize: 12,
-  },
-  activeTabText: {
-    color: '#fff',
-    fontWeight: 'bold',
   },
 });

@@ -1,8 +1,10 @@
-// components/GameCard.tsx
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
+import { useThemeContext } from '@/context/ThemeContext';
 
-export function GameCard({ title, price, oldPrice, discount, platform, image }: {
+export function GameCard({
+  title, price, oldPrice, discount, platform, image
+}: {
   title: string;
   price: string;
   oldPrice?: string;
@@ -10,16 +12,18 @@ export function GameCard({ title, price, oldPrice, discount, platform, image }: 
   platform: string;
   image: any;
 }) {
+  const { theme } = useThemeContext();
+
   return (
-    <View style={styles.card}>
+    <View style={[styles.card, { backgroundColor: theme.colors.cardBackground }]}>
       <Image source={image} style={styles.image} />
       <View style={styles.details}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.platform}>{platform}</Text>
+        <Text style={[styles.title, { color: theme.colors.text }]}>{title}</Text>
+        <Text style={[styles.platform, { color: theme.colors.textMuted }]}>{platform}</Text>
         <View style={styles.priceRow}>
-          {oldPrice && <Text style={styles.oldPrice}>{oldPrice}</Text>}
-          <Text style={styles.price}>{price}</Text>
-          {discount && <Text style={styles.discount}>{discount}</Text>}
+          {oldPrice && <Text style={[styles.oldPrice, { color: theme.colors.textMuted }]}>{oldPrice}</Text>}
+          <Text style={[styles.price, { color: theme.colors.text }]}>{price}</Text>
+          {discount && <Text style={[styles.discount, { color: theme.colors.discount }]}>{discount}</Text>}
         </View>
       </View>
     </View>
@@ -31,6 +35,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 16,
+    borderRadius: 12,
+    padding: 12,
   },
   image: {
     width: 60,
@@ -44,10 +50,8 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: 'bold',
     fontSize: 16,
-    color: '#fff',
   },
   platform: {
-    color: '#aaa',
     fontSize: 12,
     marginVertical: 2,
   },
@@ -57,16 +61,13 @@ const styles = StyleSheet.create({
   },
   oldPrice: {
     textDecorationLine: 'line-through',
-    color: '#888',
     marginRight: 6,
   },
   price: {
-    color: '#fff',
     fontWeight: 'bold',
     marginRight: 6,
   },
   discount: {
-    color: '#0f0',
     fontWeight: 'bold',
   },
 });

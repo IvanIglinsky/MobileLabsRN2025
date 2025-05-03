@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
+import { useThemeContext } from '@/context/ThemeContext'; // Імпортуємо кастомний контекст теми
 
 interface ChatItemProps {
   avatar: any;
@@ -13,19 +14,23 @@ interface ChatItemProps {
 export const ChatItem: React.FC<ChatItemProps> = ({
   avatar, name, message, date, online, unread,
 }) => {
+  const { theme } = useThemeContext(); // Отримуємо поточну тему
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { borderBottomColor: theme.colors.border }]}>
       <View>
         <Image source={avatar} style={styles.avatar} />
-        {online && <View style={styles.onlineIndicator} />}
+        {online && <View style={[styles.onlineIndicator, { backgroundColor: theme.colors.onlineIndicator }]} />}
       </View>
 
       <View style={styles.textContainer}>
-        <Text style={styles.name}>{name}</Text>
-        <Text style={styles.message}>{message} • {date}</Text>
+        <Text style={[styles.name, { color: theme.colors.text }]}>{name}</Text>
+        <Text style={[styles.message, { color: theme.colors.textMuted }]}>
+          {message} • {date}
+        </Text>
       </View>
 
-      {unread && <View style={styles.unreadDot} />}
+      {unread && <View style={[styles.unreadDot, { backgroundColor: theme.colors.primary }]} />}
     </View>
   );
 };
@@ -37,7 +42,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: '#1f2937',
   },
   avatar: {
     width: 44,
@@ -47,7 +51,6 @@ const styles = StyleSheet.create({
   onlineIndicator: {
     width: 10,
     height: 10,
-    backgroundColor: '#10b981',
     borderRadius: 5,
     position: 'absolute',
     bottom: 2,
@@ -60,12 +63,10 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   name: {
-    color: '#fff',
     fontWeight: 'bold',
     fontSize: 14,
   },
   message: {
-    color: '#aaa',
     fontSize: 12,
     marginTop: 2,
   },
@@ -73,6 +74,5 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: '#3b82f6',
   },
 });

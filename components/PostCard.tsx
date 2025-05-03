@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
+import { useThemeContext } from '@/context/ThemeContext'; // Імпортуємо кастомний контекст теми
 
 interface PostCardProps {
   user: string;
@@ -15,23 +16,25 @@ interface PostCardProps {
 export const PostCard: React.FC<PostCardProps> = ({
   user, time, tag, image, title, description, likes, comments,
 }) => {
+  const { theme } = useThemeContext(); // Отримуємо поточну тему
+
   return (
-    <View style={styles.card}>
+    <View style={[styles.card, { backgroundColor: theme.colors.cardBackground }]}>
       <View style={styles.header}>
-        <Text style={styles.user}>{user}</Text>
-        {tag && <Text style={styles.tag}>{tag}</Text>}
-        <Text style={styles.time}>{time}</Text>
+        <Text style={[styles.user, { color: theme.colors.text }]}>{user}</Text>
+        {tag && <Text style={[styles.tag, { backgroundColor: theme.colors.tagBackground }]}>{tag}</Text>}
+        <Text style={[styles.time, { color: theme.colors.textMuted }]}>{time}</Text>
       </View>
 
       <Image source={image} style={styles.image} />
 
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.description}>{description}</Text>
+      <Text style={[styles.title, { color: theme.colors.text }]}>{title}</Text>
+      <Text style={[styles.description, { color: theme.colors.textMuted }]}>{description}</Text>
 
       <View style={styles.footer}>
-        <Text style={styles.like}>👍 {likes}</Text>
-        <Text style={styles.comment}>💬 {comments}</Text>
-        <Text style={styles.share}>↗️</Text>
+        <Text style={[styles.like, { color: theme.colors.like }]} >👍 {likes}</Text>
+        <Text style={[styles.comment, { color: theme.colors.textMuted }]}>💬 {comments}</Text>
+        <Text style={[styles.share, { color: theme.colors.textMuted }]}>↗️</Text>
       </View>
     </View>
   );
@@ -39,7 +42,6 @@ export const PostCard: React.FC<PostCardProps> = ({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#1f2937',
     borderRadius: 12,
     padding: 12,
     marginBottom: 16,
@@ -52,19 +54,16 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   user: {
-    color: '#fff',
     fontWeight: 'bold',
     marginRight: 6,
   },
   tag: {
-    backgroundColor: '#9333ea',
     color: '#fff',
     fontSize: 10,
     paddingHorizontal: 6,
     borderRadius: 4,
   },
   time: {
-    color: '#aaa',
     fontSize: 12,
     marginLeft: 'auto',
   },
@@ -75,13 +74,11 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   title: {
-    color: '#fff',
     fontWeight: 'bold',
     fontSize: 14,
     marginBottom: 4,
   },
   description: {
-    color: '#ccc',
     fontSize: 12,
     marginBottom: 8,
   },
@@ -90,15 +87,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   like: {
-    color: '#10b981',
     fontSize: 12,
   },
   comment: {
-    color: '#ccc',
     fontSize: 12,
   },
   share: {
-    color: '#ccc',
     fontSize: 12,
   },
 });

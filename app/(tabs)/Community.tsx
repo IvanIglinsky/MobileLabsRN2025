@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { PostCard } from '@/components/PostCard';
+import { useThemeContext } from '@/context/ThemeContext';
 
 const initialPosts = [
   {
@@ -28,6 +29,7 @@ const initialPosts = [
 
 export default function CommunityScreen() {
   const [posts, setPosts] = useState(initialPosts);
+  const { theme } = useThemeContext();
 
   const loadMorePosts = () => {
     const newPosts = posts.map(post => ({
@@ -44,17 +46,17 @@ export default function CommunityScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <View style={styles.header}>
-        <Text style={styles.title}>🗨 Community</Text>
-        <Text style={styles.subtitle}>
+        <Text style={[styles.title, { color: theme.colors.text }]}>🗨 Community</Text>
+        <Text style={[styles.subtitle, { color: theme.colors.textMuted }]}>
           Community and official content for all games and software
         </Text>
       </View>
 
       <View style={styles.tabsContainer}>
-        <TouchableOpacity style={styles.search}>
-          <Image source={require('@/assets/icons/search.png')} style={styles.searchIcon} />
+        <TouchableOpacity style={[styles.search, { backgroundColor: theme.colors.card }]}>
+          <Image source={require('@/assets/icons/search.png')} style={[styles.searchIcon, { tintColor: theme.colors.icon }]} />
         </TouchableOpacity>
         {renderTab('All', true)}
         {renderTab('Screenshots', false)}
@@ -76,7 +78,6 @@ export default function CommunityScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#111827',
     flex: 1,
   },
   header: {
@@ -86,10 +87,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#fff',
   },
   subtitle: {
-    color: '#aaa',
     fontSize: 12,
     marginTop: 4,
   },
@@ -100,30 +99,25 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   search: {
-    backgroundColor: '#1f2937',
     padding: 8,
     borderRadius: 8,
   },
   searchIcon: {
     width: 16,
     height: 16,
-    tintColor: '#aaa',
   },
   tab: {
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 20,
-    backgroundColor: '#1f2937',
   },
   tabActive: {
     backgroundColor: '#3b82f6',
   },
   tabText: {
-    color: '#aaa',
     fontSize: 12,
   },
   tabTextActive: {
-    color: '#fff',
     fontWeight: 'bold',
   },
 });

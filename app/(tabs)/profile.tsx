@@ -1,37 +1,54 @@
+// ProfileScreen.tsx
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Switch,
+} from 'react-native';
+import { useTheme } from '@react-navigation/native';
 import avatar from '@/assets/avatars/avatar1.png';
-import { useTheme } from '@/context/ThemeContext'; // підключення контексту
+import { useThemeContext } from '@/context/ThemeContext';
 
 export default function ProfileScreen() {
-  const { theme, toggleTheme } = useTheme();
+  const { isDark,theme, toggleTheme,themeMode } = useThemeContext();
+   const { colors } = theme;
 
-  const isDark = theme === 'dark';
-
-  const colors = {
-    background: isDark ? '#121e2b' : '#fff',
-    card: isDark ? '#1f2e3c' : '#e0e0e0',
-    text: isDark ? '#fff' : '#000',
-    subtext: isDark ? '#aaa' : '#555',
-    border: isDark ? '#121e2b' : '#fff',
-  };
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-
       <View style={styles.avatarContainer}>
         <View style={styles.avatarWrapper}>
           <Image source={avatar} style={styles.avatar} />
           <View style={[styles.statusIndicator, { borderColor: colors.background }]} />
         </View>
         <Text style={[styles.name, { color: colors.text }]}>Firstname Lastname</Text>
-        <Text style={[styles.group, { color: colors.subtext }]}>Group</Text>
+        <Text style={[styles.group, { color: colors.text }]}>Group</Text>
       </View>
 
       <View style={styles.menu}>
-        <TouchableOpacity style={[styles.menuItem, { backgroundColor: colors.card }]} onPress={toggleTheme}>
-          <Text style={[styles.menuText, { color: colors.text }]}>Change Theme</Text>
-        </TouchableOpacity>
+        <View
+          style={[
+            styles.menuItem,
+            {
+              backgroundColor: colors.card,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            },
+          ]}
+        >
+          <Text style={[styles.menuText, { color: colors.text }]}>Dark Mode</Text>
+          <Switch
+            value={themeMode==='dark'}
+            onValueChange={toggleTheme}
+            thumbColor={isDark ? '#00ff88' : '#ccc'}
+            trackColor={{ false: '#888', true: '#00ff88' }}
+          />
+        </View>
+
         <TouchableOpacity style={[styles.menuItem, { backgroundColor: colors.card }]}>
           <Text style={[styles.menuText, { color: colors.text }]}>Logout</Text>
         </TouchableOpacity>
@@ -39,6 +56,9 @@ export default function ProfileScreen() {
     </View>
   );
 }
+
+
+
 
 const styles = StyleSheet.create({
   container: {
