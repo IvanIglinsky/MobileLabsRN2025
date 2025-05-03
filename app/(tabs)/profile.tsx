@@ -1,105 +1,91 @@
-import { useState } from 'react';
-import { Alert, Platform, StyleSheet } from 'react-native';
-import { TextInput, Button,PaperProvider  } from 'react-native-paper';
+import React from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import avatar from '@/assets/avatars/avatar1.png';
+import { useTheme } from '@/context/ThemeContext'; // підключення контексту
 
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
+export default function ProfileScreen() {
+  const { theme, toggleTheme } = useTheme();
 
-export default function TabTwoScreen() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const isDark = theme === 'dark';
 
-  const handleRegister = () => {
-    if (!name || !email || !password || !confirmPassword) {
-      Alert.alert('Помилка', 'Будь ласка, заповніть усі поля');
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      Alert.alert('Помилка', 'Паролі не збігаються');
-      return;
-    }
-
-
-    Alert.alert('Успішно', 'Реєстрація пройшла успішно!');
+  const colors = {
+    background: isDark ? '#121e2b' : '#fff',
+    card: isDark ? '#1f2e3c' : '#e0e0e0',
+    text: isDark ? '#fff' : '#000',
+    subtext: isDark ? '#aaa' : '#555',
+    border: isDark ? '#121e2b' : '#fff',
   };
 
   return (
-       <PaperProvider>
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="person.badge.plus"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.container}>
-        <ThemedText type="title">Реєстрація</ThemedText>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
 
-        <TextInput
-          label="Ім'я"
-          mode="outlined"
-          value={name}
-          onChangeText={setName}
-          style={styles.input}
-        />
-        <TextInput
-          label="Email"
-          mode="outlined"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          value={email}
-          onChangeText={setEmail}
-          style={styles.input}
-        />
-        <TextInput
-          label="Пароль"
-          mode="outlined"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-          style={styles.input}
-        />
-        <TextInput
-          label="Підтвердження паролю"
-          mode="outlined"
-          secureTextEntry
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          style={styles.input}
-        />
+      <View style={styles.avatarContainer}>
+        <View style={styles.avatarWrapper}>
+          <Image source={avatar} style={styles.avatar} />
+          <View style={[styles.statusIndicator, { borderColor: colors.background }]} />
+        </View>
+        <Text style={[styles.name, { color: colors.text }]}>Firstname Lastname</Text>
+        <Text style={[styles.group, { color: colors.subtext }]}>Group</Text>
+      </View>
 
-        <Button mode="contained" onPress={handleRegister} style={styles.button}>
-          Зареєструватись
-        </Button>
-      </ThemedView>
-    </ParallaxScrollView>
-     </PaperProvider>
+      <View style={styles.menu}>
+        <TouchableOpacity style={[styles.menuItem, { backgroundColor: colors.card }]} onPress={toggleTheme}>
+          <Text style={[styles.menuText, { color: colors.text }]}>Change Theme</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.menuItem, { backgroundColor: colors.card }]}>
+          <Text style={[styles.menuText, { color: colors.text }]}>Logout</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
   container: {
-    gap: 12,
+    flex: 1,
+    alignItems: 'center',
+    paddingTop: 80,
+  },
+  avatarContainer: {
+    alignItems: 'center',
+    marginBottom: 40,
+  },
+  avatarWrapper: {
+    position: 'relative',
+  },
+  avatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: '#333',
+  },
+  statusIndicator: {
+    position: 'absolute',
+    bottom: 5,
+    right: 5,
+    width: 16,
+    height: 16,
+    backgroundColor: '#2ecc71',
+    borderRadius: 8,
+    borderWidth: 2,
+  },
+  name: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginTop: 10,
+  },
+  group: {
+    fontSize: 14,
+  },
+  menu: {
+    width: '90%',
+    gap: 15,
+  },
+  menuItem: {
     padding: 16,
+    borderRadius: 10,
   },
-  input: {
-    marginBottom: 10,
-  },
-  button: {
-    marginTop: 16,
+  menuText: {
+    fontSize: 16,
   },
 });
