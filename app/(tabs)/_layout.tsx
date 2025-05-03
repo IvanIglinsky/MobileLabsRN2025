@@ -33,9 +33,8 @@ export default function TabLayout() {
        }}
      />
      <Tabs.Screen
-       name="gallery"
+       name="store"
        options={{
-         title: 'Фотогалерея',
          tabBarIcon: ({ color }) => <IconSymbol size={28} name="photo.fill.on.rectangle.fill" color={color} />,
        }}
      />
