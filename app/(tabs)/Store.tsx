@@ -57,7 +57,7 @@ export default function StoreScreen() {
       <View style={styles.header}>
         <Text style={styles.logo}>🌀 Store</Text>
         <TouchableOpacity>
-          <Image source={require('@/assets/images/search.png')} style={styles.searchIcon} />
+          <Image source={require('@/assets/icons/search.png')} style={styles.searchIcon} />
         </TouchableOpacity>
       </View>
 
