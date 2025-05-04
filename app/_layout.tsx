@@ -4,7 +4,8 @@ import { Stack, useNavigationContainerRef } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { ThemeProvider as CustomThemeProvider, useThemeContext } from '@/context/ThemeContext';
 import { ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
-
+import { GameProvider } from '@/context/GameContext';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 export default function RootLayout() {
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
@@ -25,11 +26,15 @@ function ThemedNavigation() {
 
   return (
     <NavigationThemeProvider value={theme}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+     <GameProvider>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
+
       </Stack>
+      </GameProvider>
       <StatusBar style="auto" />
+      </GestureHandlerRootView>
     </NavigationThemeProvider>
   );
 }

@@ -1,21 +1,21 @@
+// GameContext.tsx
 import React, { createContext, useContext, useState } from 'react';
 
-const initialTasks = {
-  tap: 0,
-  doubleTap: 0,
-  longPress: false,
-  pan: false,
-  swipeRight: false,
-  swipeLeft: false,
-  pinch: false,
-  score: 0,
-};
-
+// Initialize the context with a default value
 const GameContext = createContext(null);
 
 export const GameProvider = ({ children }) => {
   const [score, setScore] = useState(0);
-  const [tasks, setTasks] = useState(initialTasks);
+  const [tasks, setTasks] = useState({
+    tap: 0,
+    doubleTap: 0,
+    longPress: false,
+    pan: false,
+    swipeRight: false,
+    swipeLeft: false,
+    pinch: false,
+    score: 0,
+  });
 
   const addScore = (amount: number) => {
     const newScore = score + amount;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import GameObject from '../components/GameObject';
-import { useGame } from '../context/GameContext';
+import GameObject from '@/components/GameObject';
+import { useGame } from '@/context/GameContext';
 
 export default function GameScreen() {
   const { score } = useGame();

@@ -1,21 +1,15 @@
-import { Tabs } from 'expo-router';
 import React from 'react';
-import { Platform } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import GameScreen from '@/app/(tabs)/GameScreen';
+import TasksScreen from '@/app/(tabs)/TaskScreen';
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { useThemeContext } from '@/context/ThemeContext';
+const Tab = createBottomTabNavigator();
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-  const { theme } = useThemeContext();
-
-  // Отримуємо правильні кольори для вкладок залежно від активної теми
-  const activeTintColor = theme === 'dark' ? Colors.dark.tint : Colors.light.tint;
-
+export default function AppNavigator() {
   return (
+    <Tab.Navigator>
+      <Tab.Screen name="Game" component={GameScreen} />
+      <Tab.Screen name="Tasks" component={TasksScreen} />
+    </Tab.Navigator>
   );
 }

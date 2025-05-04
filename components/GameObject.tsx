@@ -8,7 +8,7 @@ import {
   PinchGestureHandler,
   Directions,
 } from 'react-native-gesture-handler';
-import { useGame } from '../context/GameContext';
+import { useGame } from '@/context/GameContext';
 
 export default function GameObject() {
   const { addScore, updateTask } = useGame();
